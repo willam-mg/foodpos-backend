@@ -26,7 +26,14 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string|null
      */
-    // protected $namespace = 'App\\Http\\Controllers';
+    protected $namespace = 'App\\Http\\Controllers';
+
+    /**
+     * the constant to defaine API Version.
+     * 
+     * @var string
+     */
+    private const API_VERSION = 'v1';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -38,10 +45,10 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('api')
+            Route::prefix('api/' . self::API_VERSION)
                 ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+                ->namespace($this->namespace . '\\api\\' . self::API_VERSION)
+                ->group(base_path('routes/api/'. self::API_VERSION .'/api.php'));
 
             Route::middleware('web')
                 ->namespace($this->namespace)
