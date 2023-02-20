@@ -19,7 +19,19 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->smallInteger('role')->default(2)->comment('2 = adminsitrador, 3 = vendedor');
+            $table->string('src_foto', 100)->nullable();
+            $table->enum('turno', [
+                    'Administrativo',
+                    'Mañana',
+                    'Tarde',
+                    'Noche',
+                    'Mañana y tarde',
+                    'tarde y noche', 
+                    'Mañana, tarde y noche'
+                ])->default('Administrativo')->nullable();
+            $table->smallInteger('role')->default(2)->comment('2 = administrador, 3 = vendedor');
+            $table->smallInteger('estado')->default(2)->comment('2 = activo, 3 = bloqueado');
+            $table->foreignId('punto_venta_id')->nullable()->constrained('punto_ventas');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

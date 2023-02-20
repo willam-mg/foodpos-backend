@@ -20,7 +20,7 @@ class CreateVentasTable extends Migration
             $table->decimal('descuento', 10, 2);
             $table->text('comentario')->nullable();
             $table->smallInteger('estado')->default(2)->comment('2 = vendido, 3 = cancelado');
-            $table->foreignId('cliente_id')->constrained('clientes')->nullable();
+            $table->foreignId('cliente_id')->nullable()->constrained('clientes');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('punto_venta_id')->constrained('punto_ventas');
             $table->timestamps();

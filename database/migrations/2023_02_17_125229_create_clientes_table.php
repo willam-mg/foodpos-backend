@@ -17,7 +17,7 @@ class CreateClientesTable extends Migration
             $table->id();
             $table->string('nombre_razon_social', 50);
             $table->string('ci_nit', 50);
-            $table->foreignId('punto_venta_id')->constrained('punto_ventas')->nullable();
+            $table->foreignId('punto_venta_id')->nullable()->constrained('punto_ventas');
             $table->timestamps();
             $table->softDeletes();
         });

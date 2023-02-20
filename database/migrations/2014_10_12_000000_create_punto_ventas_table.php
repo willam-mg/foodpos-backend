@@ -17,7 +17,7 @@ class CreatePuntoVentasTable extends Migration
             $table->id();
             $table->string('restaurante', 45);
             $table->string('nombre_punto_venta', 45);
-            $table->string('foto', 100);
+            $table->string('src_foto', 100);
             $table->text('direccion');
             $table->string('telefono', 45);
             $table->string('telefono_pedidos', 45);

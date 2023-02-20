@@ -16,8 +16,8 @@ class CreateAditamentosTable extends Migration
         Schema::create('aditamentos', function (Blueprint $table) {
             $table->id();
             $table->text('descripcion');
-            $table->foreignId('producto_id')->constrained('productos')->nullable();
-            $table->foreignId('aditamento_id')->constrained('productos')->nullable();
+            $table->foreignId('producto_id')->nullable()->constrained('productos');
+            $table->foreignId('aditamento_id')->nullable()->constrained('productos');
             $table->foreignId('numero_producto')->default(1);
             $table->timestamps();
             $table->softDeletes();
