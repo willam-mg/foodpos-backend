@@ -13,6 +13,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
+    const ROLE_ADMINISTRADOR = 2;
+    const ROLE_VENDEDOR = 3;
+    const ESTADO_ACTIVO = 2;
+    const ESTADO_BLOQUEADO = 3;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +27,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'turno',
+        'foto',
+        'punto_venta_id',
+        'estado'
     ];
 
     /**
@@ -42,4 +52,61 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * the appends attributes for accesors.
+     */
+    protected $appends = [
+        'foto',
+        'foto_thumbnail',
+        'foto_thumbnail_sm',
+        'punto_venta',
+    ];
+
+    /**
+     * get foto attribute
+     */
+    public function getFotoAttribute()
+    {
+        return $this->src_foto? url('/').'/uploads/'.$this->src_foto: null;
+    }
+
+    /**
+     * Get accesor foto thumbnail.
+     */
+    public function getFotoThumbnailAttribute()
+    {
+        return $this->src_foto ? url('/') . '/uploads/thumbnail/' . $this->src_foto: null;
+    }
+    /**
+     * Get accesor foto small thumbnail.
+     */
+    public function getFotoThumbnailSmAttribute()
+    {
+        return $this->src_foto ? url('/') . '/uploads/thumbnail-small/' . $this->src_foto: null;
+    }
+
+    /**
+     * Get the phone associated with the user.
+     */
+    public function getPuntoVentaAttribute()
+    {
+        return $this->puntoVenta();
+    }
+
+    /**
+     * Get the phone associated with the user.
+     */
+    public function puntoVenta()
+    {
+        return $this->hasOne(PuntoVenta::class, 'id', 'punto_venta_id');
+    }
+
+    /**
+     * Get the codigos
+     */
+    public function ventas()
+    {
+        return $this->hasMany(Venta::class, 'user_id', 'id');
+    }
 }
