@@ -60,12 +60,11 @@ class ProductoController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(int $id, Request $request)
     {
         DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
-                'id' => ['required'],
                 'nombre' => ['required'],
                 'descripcion' => ['required'],
                 'foto' => ['nullable'],
@@ -82,7 +81,7 @@ class ProductoController extends Controller
                 http_response_code(422);
                 throw new \Exception($validator->errors()->first());
             }
-            $producto = Producto::findOrFail($request->id);
+            $producto = Producto::findOrFail($id);
             $producto->nombre = $request->nombre;
             $producto->descripcion = $request->descripcion;
             $producto->precio = $request->precio;
@@ -96,7 +95,7 @@ class ProductoController extends Controller
             
             $image = $request->foto;
             if ($image) {
-                $this->saveImage($image, $producto, 'afiliado', true);
+                $this->saveImage($image, $producto, 'afiliado', $producto->src_foto?true:false );
             }
 
             DB::commit();
@@ -122,7 +121,7 @@ class ProductoController extends Controller
         return response()->json($data, 200);
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $producto = Producto::findOrFail($id);
         return response()->json($producto, 200);
@@ -132,7 +131,9 @@ class ProductoController extends Controller
     {
         $producto = Producto::findOrFail($id);
         $producto->delete();
-        return response()->json("Se elimino correctamente", 200);
+        return response()->json([
+            "message"=> "Se elimino correctamente",
+        ], 200);
     }
 
     public function puntosVenta() {

@@ -28,8 +28,8 @@ Route::prefix('auth')->group(function () {
 Route::prefix('/productos')->middleware('auth:api')->group(function () {
     Route::get('/', 'ProductoController@search');
     Route::post('/create', 'ProductoController@create');
-    Route::put('/upate', 'ProductoController@update');
-    Route::get('/show', 'ProductoController@show');
-    Route::delete('/delete', 'ProductoController@delete');
+    Route::put('/update/{id}', 'ProductoController@update');
+    Route::get('/show/{id}', 'ProductoController@show');
+    Route::delete('/delete/{id}', 'ProductoController@delete');
     Route::get('/puntos-venta', 'ProductoController@puntosVenta');
 });
