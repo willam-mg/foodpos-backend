@@ -108,13 +108,16 @@ class ProductoController extends Controller
 
     function search(Request $request) {
         $data = Producto::when($request->nombre, function ($query) use($request) {
-                $query->where(DB::Raw("nombre"), 'like', '%' . $request->nombre . '%');
+                $query->where("nombre", 'like', '%' . $request->nombre . '%');
             })
             ->when(boolval($request->publicado), function ($query) use($request) {
-                $query->where(DB::Raw("publicado"), '=', boolval($request->publicado));
+                $query->where("publicado", '=', boolval($request->publicado));
+            })
+            ->when(boolval($request->es_aditamento), function ($query) use($request) {
+                $query->where("es_aditamento", '=', boolval($request->es_aditamento));
             })
             ->when(intval($request->punto_venta_id), function ($query) use($request) {
-                $query->where(DB::Raw("punto_venta_id"), '=', intval($request->punto_venta_id));
+                $query->where("punto_venta_id", '=', intval($request->punto_venta_id));
             })
             ->orderBy('id', 'DESC')
             ->paginate(5);
