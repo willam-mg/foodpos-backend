@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Aditamento;
 use App\Models\Producto;
 use App\Models\PuntoVenta;
 use Illuminate\Support\Facades\Validator;
@@ -141,5 +142,44 @@ class ProductoController extends Controller
 
     public function puntosVenta() {
         return PuntoVenta::all();
+    }
+
+    public function addAditamento(Request $request) {
+        DB::beginTransaction();
+        try {
+            $producto = Producto::findOrFail($request->producto_id);
+            $count = $producto->aditamentos()->count();
+            $exists = $producto->aditamentos()
+                ->where([
+                    'producto_id'=>$request->producto_id,
+                    'aditamento_id'=>$request->aditamento_id
+                ])
+                ->exists();
+            if ($exists) {
+                throw new \Exception("Aditamento ya existe");
+            }
+
+            $aditamento = new Aditamento();
+            $aditamento->descripcion = $request->descripcion;
+            $aditamento->producto_id = $request->producto_id;
+            $aditamento->aditamento_id = $request->aditamento_id;
+            $aditamento->numero_producto = $count + 1;
+            $aditamento->save();
+
+            DB::commit();
+            return response()->json($producto, 201);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+        
+    }
+
+    public function removeAditamento($id) {
+        $aditamento = Aditamento::findOrFail($id);
+        $aditamento->delete();
+        return response()->json([
+            "message" => "Se elimino correctamente",
+        ], 200);
     }
 }

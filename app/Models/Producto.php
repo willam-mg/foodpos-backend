@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Producto extends Model
@@ -42,6 +44,7 @@ class Producto extends Model
         'foto_thumbnail',
         'foto_thumbnail_sm',
         'punto_venta',
+        'mis_aditamentos',
     ];
 
     /**
@@ -68,7 +71,7 @@ class Producto extends Model
     }
 
     /**
-     * Get the phone associated with the user.
+     * Get the puntoVenta associated with the Producto.
      */
     public function getPuntoVentaAttribute()
     {
@@ -78,8 +81,24 @@ class Producto extends Model
     /**
      * Get the phone associated with the user.
      */
-    public function puntoVenta()
+    public function puntoVenta(): HasOne
     {
         return $this->hasOne(PuntoVenta::class, 'id', 'punto_venta_id');
+    }
+
+    /**
+     * Get mis aditamentos.
+     */
+    public function getMisAditamentosAttribute()
+    {
+        return $this->es_aditamento==false?$this->aditamentos:[];
+    }
+
+    /**
+     * Get the codigos
+     */
+    public function aditamentos(): HasMany
+    {
+        return $this->hasMany(Aditamento::class, 'producto_id', 'id');
     }
 }

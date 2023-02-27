@@ -32,4 +32,6 @@ Route::prefix('/productos')->middleware('auth:api')->group(function () {
     Route::get('/show/{id}', 'ProductoController@show');
     Route::delete('/delete/{id}', 'ProductoController@delete');
     Route::get('/puntos-venta', 'ProductoController@puntosVenta');
+    Route::post('/aditamento/create', 'ProductoController@addAditamento');
+    Route::delete('/aditamento/remove/{id}', 'ProductoController@removeAditamento');
 });

@@ -91,7 +91,7 @@ class User extends Authenticatable
      */
     public function getPuntoVentaAttribute()
     {
-        return $this->puntoVenta();
+        return $this->puntoVenta;
     }
 
     /**
