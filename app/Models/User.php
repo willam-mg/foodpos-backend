@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -60,7 +61,7 @@ class User extends Authenticatable
         'foto',
         'foto_thumbnail',
         'foto_thumbnail_sm',
-        'punto_venta',
+        'mi_punto_venta',
     ];
 
     /**
@@ -89,7 +90,7 @@ class User extends Authenticatable
     /**
      * Get the phone associated with the user.
      */
-    public function getPuntoVentaAttribute()
+    public function getMiPuntoVentaAttribute()
     {
         return $this->puntoVenta;
     }
@@ -97,7 +98,7 @@ class User extends Authenticatable
     /**
      * Get the phone associated with the user.
      */
-    public function puntoVenta()
+    public function puntoVenta(): HasOne
     {
         return $this->hasOne(PuntoVenta::class, 'id', 'punto_venta_id');
     }

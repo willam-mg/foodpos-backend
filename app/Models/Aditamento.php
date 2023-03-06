@@ -33,7 +33,7 @@ class Aditamento extends Model
      */
     public function getMiAditamentoAttribute()
     {
-        return $this->productoAditamento();
+        return $this->productoAditamento;
     }
     
     /**
@@ -41,40 +41,22 @@ class Aditamento extends Model
      */
     public function getMiProductoAttribute()
     {
-        return $this->producto();
+        return $this->producto;
     }
 
     /**
      * Get the producto type aditamento associated with the aditamento.
      */
-    public function productoAditamento()
+    public function productoAditamento(): BelongsTo
     {
-        // return $this->HasOne(Producto::class, 'id', 'aditamento_id');
-        // return Producto::where([
-        //     'id'=> $this->aditamento_id
-        // ])->first();
-        return DB::table('productos')
-        ->where([
-            'id'=> $this->aditamento_id
-        ])
-        ->whereNull('deleted_at')
-        ->first();
+        return $this->belongsTo(Producto::class, 'aditamento_id');
     }
     
     /**
      * Get the prodcuto associated with the aditamento.
      */
-    public function producto()
+    public function producto(): BelongsTo
     {
-        // return $this->HasOne(Producto::class, 'id', 'producto_id');
-        // return Producto::where([
-        //     'id' => $this->producto_id
-        // ])->first();
-        return DB::table('productos')
-        ->where([
-            'id' => $this->producto_id
-        ])
-        ->whereNull('deleted_at')
-        ->first();
+        return $this->belongsTo(Producto::class, 'producto_id');
     }
 }

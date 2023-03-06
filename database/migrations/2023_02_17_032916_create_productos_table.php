@@ -16,7 +16,7 @@ class CreateProductosTable extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 45);
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->string('src_foto', 100)->nullable();
             $table->decimal('precio', 10, 2);
             $table->smallInteger('precio_x_gr')->default(0)->comment('para obtener el precio subotal  por cantidad o gramos');

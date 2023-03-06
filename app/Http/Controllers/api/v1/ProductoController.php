@@ -10,17 +10,46 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Traits\ImageTrait;
+use Illuminate\Support\Arr;
 
 class ProductoController extends Controller
 {
     use ImageTrait;
+
+    /**
+     * Format a model producto.
+     * format a model producto To response
+     * @param Producto $producto
+     * @return Object formated Producto 
+     */
+    public function formatProducto(Producto $producto) {
+        $data = [
+            'nombre'=>$producto->nombre,
+            'descripcion'=>$producto->descripcion,
+            'src_foto'=>$producto->src_foto,
+            'precio'=>$producto->precio,
+            'precio_x_gr'=>$producto->precio_x_gr,
+            'es_producto'=>$producto->es_producto,
+            'es_aditamento'=>$producto->es_aditamento,
+            'publicado'=>$producto->publicado,
+            'punto_venta_id'=>$producto->punto_venta_id,
+            'comentario'=>$producto->comentario,
+            'foto'=>$producto->foto,
+            'foto_thumbnail'=>$producto->foto_thumbnail,
+            'foto_thumbnail_sm'=>$producto->foto_thumbnail_sm,
+            'punto_venta'=>$producto->punto_venta,
+        ];
+        $aditamentos = $producto->aditamentos;
+        data_set($data, 'mis_aditamentos', $aditamentos);
+        return $data;
+    }
 
     public function create(Request $request) {
         DB::beginTransaction();
         try {
             $validator = Validator::make($request->all(), [
                 'nombre' => ['required'],
-                'descripcion' => ['required'],
+                'descripcion' => ['nullable'],
                 'foto' => ['nullable'],
                 'precio' => ['required'],
                 'precio_x_gr' => ['required'],
@@ -67,7 +96,7 @@ class ProductoController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'nombre' => ['required'],
-                'descripcion' => ['required'],
+                'descripcion' => ['nullable'],
                 'foto' => ['nullable'],
                 'precio' => ['required'],
                 'precio_x_gr' => ['required'],
@@ -128,7 +157,7 @@ class ProductoController extends Controller
     public function show(int $id)
     {
         $producto = Producto::findOrFail($id);
-        return response()->json($producto, 200);
+        return response()->json($this->formatProducto($producto), 200);
     }
 
     public function delete($id)
