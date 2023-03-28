@@ -23,8 +23,9 @@ class CreateProductosTable extends Migration
             $table->smallInteger('es_producto')->default(1)->comment('0 = No, 1 = Si');
             $table->smallInteger('es_aditamento')->default(0)->comment('0 = No, 1 = Si');
             $table->smallInteger('publicado')->default(1)->comment('0 = No, 1 = Si');
-            $table->foreignId('punto_venta_id')->nullable()->constrained('punto_ventas');
             $table->text('comentario')->nullable();
+            $table->foreignId('punto_venta_id')->nullable()->constrained('punto_ventas');
+            $table->foreignId('categoria_producto_id')->nullable()->constrained('categoria_productos');
             $table->timestamps();
             $table->softDeletes();
         });

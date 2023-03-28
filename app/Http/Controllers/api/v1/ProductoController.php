@@ -140,6 +140,9 @@ class ProductoController extends Controller
         $data = Producto::when($request->nombre, function ($query) use($request) {
                 $query->where("nombre", 'like', '%' . $request->nombre . '%');
             })
+            ->when(intval($request->categoria_producto_id), function ($query) use($request) {
+                $query->where("categoria_producto_id", '=', intval($request->categoria_producto_id));
+            })
             ->when(boolval($request->publicado), function ($query) use($request) {
                 $query->where("publicado", '=', boolval($request->publicado));
             })
@@ -201,7 +204,6 @@ class ProductoController extends Controller
             DB::rollBack();
             throw $th;
         }
-        
     }
 
     public function removeAditamento($id) {
@@ -210,5 +212,9 @@ class ProductoController extends Controller
         return response()->json([
             "message" => "Se elimino correctamente",
         ], 200);
+    }
+
+    public function aditamentos($id) {
+        return Aditamento::where('producto_id', $id)->get();
     }
 }

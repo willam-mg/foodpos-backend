@@ -13,4 +13,6 @@ class CategoriaProducto extends Model
     protected $fillable = [
         'nombre'
     ];
+
+    
 }

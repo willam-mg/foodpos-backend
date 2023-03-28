@@ -24,6 +24,11 @@ Route::prefix('auth')->group(function () {
     Route::post('/signup', 'AuthController@signup');
 });
 
+// Categoria produto
+Route::prefix('/categorias')->middleware('auth:api')->group(function () {
+    Route::get('/list', 'CateogriaProductoController@list');
+});
+
 // Producto
 Route::prefix('/productos')->middleware('auth:api')->group(function () {
     Route::get('/', 'ProductoController@search');
@@ -32,6 +37,7 @@ Route::prefix('/productos')->middleware('auth:api')->group(function () {
     Route::get('/show/{id}', 'ProductoController@show');
     Route::delete('/delete/{id}', 'ProductoController@delete');
     Route::get('/puntos-venta', 'ProductoController@puntosVenta');
-    Route::post('/aditamento/create', 'ProductoController@addAditamento');
-    Route::delete('/aditamento/remove/{id}', 'ProductoController@removeAditamento');
+    Route::get('/aditamentos/{id}', 'ProductoController@aditamentos');
+    Route::post('/aditamentos/create', 'ProductoController@addAditamento');
+    Route::delete('/aditamentos/remove/{id}', 'ProductoController@removeAditamento');
 });
