@@ -25,7 +25,9 @@ class VentaController extends Controller
             'cliente_id'=>$venta->cliente_id,
             'user_id'=>$venta->user_id,
             'punto_venta_id'=>$venta->punto_venta_id,
-            'mi_detalle_venta'=>$venta->mi_detalle_venta,
+            'detalleVenta'=>$venta->detalleVenta,
+            'total'=>$venta->total,
+            'mi_punto_venta'=>$venta->puntoVenta,
         ];
     }
 
@@ -104,7 +106,7 @@ class VentaController extends Controller
     public function show(int $id)
     {
         $venta = Venta::findOrFail($id);
-        return response()->json($venta, 200);
+        return response()->json($this->formatVenta($venta), 200);
     }
 
     public function delete($id)

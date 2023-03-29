@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -20,6 +21,7 @@ class Venta extends Model
         'cliente_id',
         'user_id',
         'punto_venta_id',
+        'total',
     ];
 
     /**
@@ -27,6 +29,8 @@ class Venta extends Model
      */
     protected $appends = [
         // 'mi_detalle_venta',
+        'total',
+        'mi_punto_venta'
     ];
 
     /**
@@ -38,10 +42,38 @@ class Venta extends Model
     }
 
     /**
+     * Get mis aditamentos.
+     */
+    public function getTotalAttribute()
+    {
+        $total = 0;
+        foreach ($this->detalleVenta as $key => $item) {
+            $total += $item->sub_total;
+        }
+        return $total;
+    }
+    
+    /**
+     * Get mis aditamentos.
+     */
+    public function getMiPuntoVentaAttribute()
+    {
+        return $this->puntoVenta;
+    }
+
+    /**
      * Get the detalleVenta
      */
     public function detalleVenta(): HasMany
     {
         return $this->hasMany(DetalleVenta::class, 'venta_id', 'id');
+    }
+
+    /**
+     * Get the phone associated with the user.
+     */
+    public function puntoVenta(): BelongsTo
+    {
+        return $this->belongsTo(PuntoVenta::class, 'punto_venta_id');
     }
 }

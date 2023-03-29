@@ -29,6 +29,7 @@ class DetalleVenta extends Model
     protected $appends = [
         // 'mi_venta',
         // 'mi_producto',
+        'sub_total',
     ];
 
     /**
@@ -37,6 +38,18 @@ class DetalleVenta extends Model
     public function getMiVentaAttribute()
     {
         return $this->venta;
+    }
+    
+    /**
+     * Get mi venta.
+     */
+    public function getSubTotalAttribute()
+    {
+        if ( $this->precio_x_gr ) {
+            return $this->cantidad * $this->gramos;
+        }else {
+            return $this->cantidad * $this->precio;
+        }
     }
 
     /**
