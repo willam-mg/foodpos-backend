@@ -41,3 +41,11 @@ Route::prefix('/productos')->middleware('auth:api')->group(function () {
     Route::post('/aditamentos/create', 'ProductoController@addAditamento');
     Route::delete('/aditamentos/remove/{id}', 'ProductoController@removeAditamento');
 });
+
+// Producto
+Route::prefix('/ventas')->middleware('auth:api')->group(function () {
+    Route::get('/', 'VentaController@index');
+    Route::post('/create', 'VentaController@create');
+    Route::get('/show/{id}', 'VentaController@show');
+    Route::delete('/delete/{id}', 'VentaController@delete');
+});

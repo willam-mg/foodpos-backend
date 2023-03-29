@@ -19,7 +19,7 @@ class CreateDetalleVentasTable extends Migration
             $table->smallInteger('precio_x_gr')->default(0)->comment('para obtener el precio subotal  por cantidad o gramos');
             $table->decimal('precio', 10, 2);
             $table->integer('cantidad');
-            $table->decimal('descuento', 10, 2)->comment('monto a descontar');
+            $table->decimal('descuento', 10, 2)->nullable()->comment('monto a descontar');
             $table->decimal('gramos', 10, 2)->nullable();
             $table->foreignId('venta_id')->constrained('ventas');
             $table->foreignId('producto_id')->constrained('productos');

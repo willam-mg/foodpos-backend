@@ -24,6 +24,7 @@ class ProductoController extends Controller
      */
     public function formatProducto(Producto $producto) {
         $data = [
+            'id'=>$producto->id,
             'nombre'=>$producto->nombre,
             'descripcion'=>$producto->descripcion,
             'src_foto'=>$producto->src_foto,
@@ -38,6 +39,8 @@ class ProductoController extends Controller
             'foto_thumbnail'=>$producto->foto_thumbnail,
             'foto_thumbnail_sm'=>$producto->foto_thumbnail_sm,
             'punto_venta'=>$producto->punto_venta,
+            'categoria_producto_id'=>$producto->categoria_producto_id,
+            'mi_categoria'=>$producto->categoria,
         ];
         $aditamentos = $producto->aditamentos;
         data_set($data, 'mis_aditamentos', $aditamentos);
@@ -58,6 +61,7 @@ class ProductoController extends Controller
                 'publicado' => ['required'],
                 'punto_venta_id' => ['nullable'],
                 'comentario' => ['nullable'],
+                'categoria_producto_id' => ['required'],
             ]);
 
             if ($validator->fails()) {
@@ -105,6 +109,7 @@ class ProductoController extends Controller
                 'publicado' => ['required'],
                 'punto_venta_id' => ['nullable'],
                 'comentario' => ['nullable'],
+                'categoria_producto_id' => ['required'],
             ]);
 
             if ($validator->fails()) {
@@ -121,6 +126,7 @@ class ProductoController extends Controller
             $producto->publicado = $request->publicado;
             $producto->punto_venta_id = $request->punto_venta_id;
             $producto->comentario = $request->comentario;
+            $producto->categoria_producto_id = $request->categoria_producto_id;
             $producto->save();
             
             $image = $request->foto;

@@ -27,8 +27,8 @@ class DetalleVenta extends Model
      * the appends attributes for accesors.
      */
     protected $appends = [
-        'mi_venta',
-        'mi_producto',
+        // 'mi_venta',
+        // 'mi_producto',
     ];
 
     /**

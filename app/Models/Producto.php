@@ -45,6 +45,7 @@ class Producto extends Model
         'foto_thumbnail',
         'foto_thumbnail_sm',
         'punto_venta',
+        'mi_categoria',
     ];
 
     /**
@@ -77,6 +78,14 @@ class Producto extends Model
     {
         return $this->puntoVenta();
     }
+    
+    /**
+     * Get the puntoVenta associated with the Producto.
+     */
+    public function getMiCategoriaAttribute()
+    {
+        return $this->categoria;
+    }
 
     /**
      * Get the phone associated with the user.
@@ -84,6 +93,14 @@ class Producto extends Model
     public function puntoVenta(): BelongsTo
     {
         return $this->belongsTo(PuntoVenta::class, 'punto_venta_id');
+    }
+
+    /**
+     * Get the phone associated with the user.
+     */
+    public function categoria(): BelongsTo
+    {
+        return $this->belongsTo(CategoriaProducto::class, 'categoria_producto_id');
     }
 
     /**
