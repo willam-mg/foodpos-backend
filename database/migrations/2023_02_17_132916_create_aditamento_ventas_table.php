@@ -19,6 +19,7 @@ class CreateAditamentoVentasTable extends Migration
             $table->foreignId('detalle_venta_id')->constrained('detalle_ventas');
             $table->foreignId('aditamento_id')->constrained('aditamentos');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

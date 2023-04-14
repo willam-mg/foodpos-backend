@@ -78,6 +78,7 @@ class ProductoController extends Controller
             $producto->publicado = $request->publicado;
             $producto->punto_venta_id = $request->punto_venta_id;
             $producto->comentario = $request->comentario;
+            $producto->categoria_producto_id = $request->categoria_producto_id;
             $producto->save();
 
             $image = $request->foto;

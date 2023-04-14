@@ -15,6 +15,22 @@ use Illuminate\Support\Facades\Validator;
 class VentaController extends Controller
 {
     private function formatVenta(Venta $venta) {
+        $detalleVenta = [];
+        foreach ($venta->detalleVenta as $key => $itemDetalle) {
+            array_push($detalleVenta, [
+                'id'=>$itemDetalle->id,
+                'nombre_producto'=>$itemDetalle->nombre_producto,
+                'precio_x_gr'=>$itemDetalle->precio_x_gr,
+                'precio'=>$itemDetalle->precio,
+                'cantidad'=>$itemDetalle->cantidad,
+                'descuento'=>$itemDetalle->descuento,
+                'gramos'=>$itemDetalle->gramos,
+                'venta_id'=>$itemDetalle->venta_id,
+                'producto_id'=>$itemDetalle->producto_id,
+                'aditamentos_venta'=>$itemDetalle->aditamentoVentas,
+                'sub_total'=>$itemDetalle->sub_total,
+            ]);
+        }
         return [
             'id'=>$venta->id,
             'fecha'=>$venta->fecha,
@@ -25,7 +41,7 @@ class VentaController extends Controller
             'cliente_id'=>$venta->cliente_id,
             'user_id'=>$venta->user_id,
             'punto_venta_id'=>$venta->punto_venta_id,
-            'detalleVenta'=>$venta->detalleVenta,
+            'detalleVenta'=>$detalleVenta,
             'total'=>$venta->total,
             'mi_punto_venta'=>$venta->puntoVenta,
         ];

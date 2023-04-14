@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -45,8 +46,8 @@ class DetalleVenta extends Model
      */
     public function getSubTotalAttribute()
     {
-        if ( $this->precio_x_gr ) {
-            return $this->cantidad * $this->gramos;
+        if ( $this->precio_x_gr == true) {
+            return $this->gramos * $this->precio;
         }else {
             return $this->cantidad * $this->precio;
         }
@@ -74,5 +75,13 @@ class DetalleVenta extends Model
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class, 'producto_id');
+    }
+
+    /**
+     * Get the detalleVenta
+     */
+    public function aditamentoVentas(): HasMany
+    {
+        return $this->hasMany(AditamentoVenta::class, 'detalle_venta_id', 'id');
     }
 }
